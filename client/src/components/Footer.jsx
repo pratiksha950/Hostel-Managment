@@ -36,28 +36,24 @@ export default function Footer() {
                 <FaHeart className="text-white text-lg" />
               </div>
               <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">
-                GiftForYou
+                EasyStay
               </h2>
             </div>
             <p className="text-gray-600 leading-relaxed mb-6">
-              Creating unforgettable moments with personalized gifts for every celebration.
-              Your happiness is our mission.
+              Simplifying hostel management with smart room allocation,
+              complaint tracking, and real-time updates for students and staff.
             </p>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-100 hover:bg-purple-600 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <a href="#" className="w-10 h-10 bg-gray-100 hover:bg-purple-600 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                 <FaFacebook className="text-gray-600 hover:text-white" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-100 hover:bg-purple-600 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <a href="#" className="w-10 h-10 bg-gray-100 hover:bg-purple-600 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                 <FaInstagram className="text-gray-600 hover:text-white" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-100 hover:bg-blue-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <a href="#" className="w-10 h-10 bg-gray-100 hover:bg-blue-500 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                 <FaTwitter className="text-gray-600 hover:text-white" />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-100 hover:bg-red-600 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <a href="#" className="w-10 h-10 bg-gray-100 hover:bg-red-600 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110">
                 <FaYoutube className="text-gray-600 hover:text-white" />
               </a>
             </div>
@@ -76,54 +72,54 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/dashboard" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  About Us
+                  Dashboard
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/requests" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Contact
+                  Room Requests
+                </Link>
+              </li>
+              <li>
+                <Link to="/complaints" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                  <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
+                  Complaints
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* Hostel Features */}
           <div>
             <h3 className="text-lg font-semibold mb-6 text-gray-800 border-b border-gray-300 pb-2">
-              Gift Categories
+              Features
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/wedding" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/room-allotment" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Wedding Gifts
+                  Room Allotment
                 </Link>
               </li>
               <li>
-                <Link to="/birthday" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/maintenance" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Birthday Gifts
+                  Maintenance Requests
                 </Link>
               </li>
               <li>
-                <Link to="/valentine" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/fees" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Valentine Gifts
+                  Fee Management
                 </Link>
               </li>
               <li>
-                <Link to="/fashion" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/notices" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Fashion
-                </Link>
-              </li>
-              <li>
-                <Link to="/cake" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
-                  <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Cakes
+                  Notices
                 </Link>
               </li>
             </ul>
@@ -135,7 +131,7 @@ export default function Footer() {
               Stay Updated
             </h3>
             <p className="text-gray-600 mb-4 leading-relaxed">
-              Subscribe to get special offers and updates about new gifts.
+              Get updates about hostel announcements and notices.
             </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
               <div className="relative">
@@ -157,8 +153,8 @@ export default function Footer() {
               </button>
             </form>
             {subscribed && (
-              <p className="text-green-400 text-sm mt-2 animate-pulse">
-                ✓ Thanks for subscribing!
+              <p className="text-green-500 text-sm mt-2 animate-pulse">
+                ✓ Subscribed successfully!
               </p>
             )}
           </div>
@@ -168,7 +164,7 @@ export default function Footer() {
         <div className="border-t border-gray-300 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-500 text-sm">
-              © {new Date().getFullYear()} GiftForYou. Made with <FaHeart className="inline text-purple-500 mx-1" /> for gifting happiness.
+              © {new Date().getFullYear()} EasyStay. Made with <FaHeart className="inline text-purple-500 mx-1" /> for better hostel living.
             </p>
             <div className="flex space-x-6 text-sm">
               <Link to="/privacy" className="text-gray-500 hover:text-purple-600 transition-colors">

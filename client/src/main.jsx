@@ -9,8 +9,9 @@ import Profile from "./views/Profile";
 import About from "./views/About";
 import StudentDashboard from "./views/StudentDashboard";
 import WardenDashboard from "./views/WardenDashboard";
-import RoomRent from "./views/student/RoomRent";
+import RoomRent from "./views/BookRoom";
 import Complaints from "./views/student/Complaints";
+import ManageApplications from "./views/ManageApplications";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -21,9 +22,11 @@ createRoot(document.getElementById("root")).render(
       <Route path="/profile" element={<Profile />} />
       <Route path="/about" element={<About />} />
       <Route path="/student-dashboard" element={<StudentDashboard />} />
-      <Route path="/student/room-rent" element={<RoomRent />} />
       <Route path="/student/complaints" element={<Complaints />} />
       <Route path="/warden-dashboard" element={<WardenDashboard />} />
+
+      <Route path="/room-rent" element={<RoomRent />} />
+      <Route path="/manage-applications" element={<ManageApplications />} />
     </Routes>
   </BrowserRouter>
 );
