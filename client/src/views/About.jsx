@@ -199,7 +199,7 @@ const About = () => {
       <Navbar />
       <ShaderBackground />
 
-      <div className="min-h-screen text-[#e8f7ff]">
+      <div className="min-h-screen bg-gradient-to-r from-slate-900 via-gray-800 to-slate-900 text-white">
 
         {/* HERO */}
 

@@ -60,11 +60,11 @@ function StudentDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
+   <div className="min-h-screen bg-gradient-to-r from-slate-900 via-gray-800 to-slate-900 text-white">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 py-10">
-        <section className="rounded-4xl bg-linear-to-r from-purple-600 to-indigo-600 p-10 shadow-2xl text-white">
+        <section className="rounded-4xl bg-linear-to-r   p-10 shadow-2xl text-white">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <Heading text={`Welcome back, ${user.name || "Student"}`} />

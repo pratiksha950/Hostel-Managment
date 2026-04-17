@@ -57,7 +57,7 @@ function Complaints() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
+    <div className="min-h-screen bg-gradient-to-r from-slate-900 via-gray-800 to-slate-900 text-white">
       <Navbar />
       <main className="max-w-6xl mx-auto px-4 py-10">
         <Heading text="Maintenance Complaints" />
