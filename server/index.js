@@ -3,10 +3,11 @@ import dotenv from "dotenv"
 import cors from "cors";
 import connectDB from "./db.js";
 import { checkJWT } from "./middleware/jwt.js";
-import { postSignUp, postLogin } from "./controllers/auth.js";
+import { postSignUp, postLogin, updateUser } from "./controllers/auth.js";
 import { getHome, getHealth } from "./controllers/health.js";
 import { getAbout } from "./controllers/about.js";
-import { updateUser } from "./controllers/auth.js";
+import { createRoomRequest, getRoomRequests, updateRoomRequestStatus, getRooms } from "./controllers/roomRequest.js";
+import { createComplaint, getComplaints, updateComplaintStatus } from "./controllers/complaint.js";
 import ImageKit from "@imagekit/nodejs";
 dotenv.config();
 
@@ -33,6 +34,15 @@ app.get('/auth', function (req, res) {
 
 app.post("/signup", postSignUp)
 app.post("/login", postLogin)
+
+app.post("/api/room-requests", checkJWT, createRoomRequest)
+app.get("/api/room-requests", checkJWT, getRoomRequests)
+app.patch("/api/room-requests/:id/status", checkJWT, updateRoomRequestStatus)
+app.get("/api/rooms", checkJWT, getRooms)
+
+app.post("/api/complaints", checkJWT, createComplaint)
+app.get("/api/complaints", checkJWT, getComplaints)
+app.patch("/api/complaints/:id/status", checkJWT, updateComplaintStatus)
 
 app.put("/profile", checkJWT, updateUser);
 
