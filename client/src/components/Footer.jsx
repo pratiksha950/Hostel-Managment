@@ -38,7 +38,7 @@ export default function Footer() {
               <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">
                 EasyStay
               </h2>
-            </div>
+            </div> 
             <p className="text-gray-600 leading-relaxed mb-6">
               Simplifying hostel management with smart room allocation,
               complaint tracking, and real-time updates for students and staff.
@@ -72,19 +72,19 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/dashboard" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/about" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Dashboard
+                  About
                 </Link>
               </li>
               <li>
-                <Link to="/requests" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/manage-applications" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
                   Room Requests
                 </Link>
               </li>
               <li>
-                <Link to="/complaints" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/student/complaints" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
                   Complaints
                 </Link>
@@ -99,29 +99,18 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/room-allotment" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/manage-applications" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
                   Room Allotment
                 </Link>
               </li>
               <li>
-                <Link to="/maintenance" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
+                <Link to="/student/complaints" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Maintenance Requests
+                  Maintenance complaints
                 </Link>
               </li>
-              <li>
-                <Link to="/fees" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
-                  <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Fee Management
-                </Link>
-              </li>
-              <li>
-                <Link to="/notices" className="text-gray-600 hover:text-purple-600 transition-colors duration-200 flex items-center group">
-                  <span className="w-0 group-hover:w-2 h-0.5 bg-purple-600 transition-all duration-200 mr-0 group-hover:mr-2"></span>
-                  Notices
-                </Link>
-              </li>
+              
             </ul>
           </div>
 
