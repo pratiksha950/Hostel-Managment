@@ -36,7 +36,7 @@ function Navbar() {
             <Link to="/" className="hover:from-purple-600 hover:to-purple-700 transition-all duration-300">
               EasyStay
             </Link>
-          </h1>
+          </h1>    
         </div>
 
         {/* Desktop Navigation */}
@@ -73,9 +73,7 @@ function Navbar() {
         <div className="flex items-center space-x-4">
           {/* About - Hidden on mobile */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/about" className="text-gray-600 hover:text-purple-600 text-sm font-medium transition-colors">
-              About
-            </Link>
+        
           </div>
 
           {/* User Section */}
