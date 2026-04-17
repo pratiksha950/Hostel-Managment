@@ -56,6 +56,23 @@ app.get("/api/reviews", getReview);
 app.put("/api/reviews/:id", updateReview);
 app.delete("/api/reviews/:id", deleteReview);
 
+const fetchRooms = async () => {
+  try {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/api/rooms`,
+      {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      }
+    );
+
+    console.log("ROOMS DATA 👉", res.data); // 👈 ADD THIS
+
+    setRooms(res.data.data || []);
+  } catch (err) {
+    console.error(err);
+    toast.error("Unable to load rooms");
+  }
+};
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

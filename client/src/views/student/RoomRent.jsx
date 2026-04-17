@@ -1,70 +1,51 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Heading from "../../components/Heading";
 import Button from "../../components/Button";
-import Input2 from "../../components/Input2";
 import toast from "react-hot-toast";
 import { setPageTitle } from "../../utils.jsx";
 
 function RoomRent() {
   const [rooms, setRooms] = useState([]);
-  const [requests, setRequests] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [preference, setPreference] = useState("");
   const [reason, setReason] = useState("");
 
   useEffect(() => {
-    setPageTitle("Room Rent - Student Dashboard");
+    setPageTitle("Room Rent");
     fetchRooms();
-    fetchRequests();
   }, []);
 
   const getToken = () => localStorage.getItem("userJwtToken");
 
   const fetchRooms = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/rooms`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
-      setRooms(response.data.data || []);
-      if (response.data.data?.length) {
-        setSelectedRoom(response.data.data[0]._id);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Unable to load rooms");
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/rooms`,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
+      );
+      setRooms(res.data.data || []);
+    } catch (err) {
+      toast.error("Failed to load rooms");
     }
   };
 
-  const fetchRequests = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/room-requests`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
-      setRequests(response.data.data || []);
-    } catch (error) {
-      console.error(error);
-      toast.error("Unable to load your requests");
+  const handleApply = async () => {
+    if (!selectedRoom) {
+      toast.error("Select a room first");
+      return;
     }
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
-      const room = rooms.find((item) => item._id === selectedRoom);
-      if (!room) {
-        toast.error("Please select a room type");
-        return;
-      }
-
       await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/room-requests`,
         {
-          building: room.building,
-          roomType: room.roomType,
+          building: selectedRoom.building,
+          roomType: selectedRoom.roomType,
           preference,
           reason,
         },
@@ -73,134 +54,108 @@ function RoomRent() {
         }
       );
 
-      toast.success("Room request sent to the warden");
+      toast.success("Room request sent ✅");
+      setSelectedRoom(null);
       setPreference("");
       setReason("");
-      fetchRequests();
-    } catch (error) {
-      console.error(error);
-      toast.error(error?.response?.data?.message || "Failed to submit request");
+    } catch (err) {
+      toast.error("Failed to apply");
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
+    <div className="min-h-screen bg-slate-100">
       <Navbar />
-      <main className="max-w-6xl mx-auto px-4 py-10">
-        <Heading text="Room Rent & Allotment" />
 
-        <section className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-4xl bg-white p-8 shadow-lg">
-            <h2 className="text-2xl font-semibold">Available Rooms</h2>
-            <p className="mt-2 text-sm text-slate-500">Choose the room type and submit an allotment request.</p>
+      <main className="max-w-7xl mx-auto px-4 py-10">
+        <Heading text="Available Rooms" />
 
-            <div className="mt-6 space-y-4">
-              {rooms.length === 0 ? (
-                <p className="text-sm text-slate-500">No rooms available right now.</p>
-              ) : (
-                rooms.map((room) => (
-                  <div key={room._id} className="rounded-3xl border border-slate-200 p-4">
-                    <label className="flex items-start gap-3">
-                      <input
-                        type="radio"
-                        name="selectedRoom"
-                        value={room._id}
-                        checked={selectedRoom === room._id}
-                        onChange={() => setSelectedRoom(room._id)}
-                        className="mt-1 h-4 w-4 text-purple-600"
-                      />
-                      <div>
-                        <div className="flex items-center justify-between gap-4">
-                          <p className="text-lg font-semibold">{room.roomType} - {room.building}</p>
-                          <span className="rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-700">
-                            ${room.rent}/month
-                          </span>
-                        </div>
-                        <p className="mt-2 text-sm text-slate-600">Available: {room.availableRooms}</p>
-                        <p className="mt-2 text-sm text-slate-500">Amenities: {room.amenities.join(", ") || "Standard"}</p>
-                      </div>
-                    </label>
-                  </div>
-                ))
-              )}
-            </div>
+        {/* ROOM CARDS */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+          {rooms.map((room) => (
+            <div
+              key={room._id}
+              className={`bg-white rounded-3xl shadow-lg overflow-hidden transition hover:scale-105 ${
+                selectedRoom?._id === room._id
+                  ? "border-2 border-purple-600"
+                  : ""
+              }`}
+            >
+              {/* IMAGE */}
+              <img
+                src={
+                  room.image ||
+                  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2"
+                }
+                alt="room"
+                className="w-full h-48 object-cover"
+              />
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-              <label className="block text-sm font-medium text-slate-700">
-                Preference
-                <Input2
-                  type="text"
-                  placeholder="Lower floor, near exit, etc."
-                  value={preference}
-                  onChange={(e) => setPreference(e.target.value)}
-                />
-              </label>
+              {/* CONTENT */}
+              <div className="p-5">
+                <h2 className="text-xl font-bold">{room.name}</h2>
 
-              <label className="block text-sm font-medium text-slate-700">
-                Reason for allotment
-                <textarea
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  rows={4}
-                  className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-purple-500 focus:outline-none"
-                  placeholder="Tell the warden why you need this room"
-                />
-              </label>
+                <p className="text-sm text-gray-500">
+                  {room.roomType} • {room.building}
+                </p>
 
-              <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-                <Button title="Apply for Room" type="submit" varient="primary" />
-                <Link to="/student/complaints" className="text-sm text-purple-600 hover:underline">
-                  Need maintenance instead?
-                </Link>
-              </div>
-            </form>
-          </div>
+                <p className="mt-2 text-purple-600 font-semibold">
+                  ₹{room.rent}/month
+                </p>
 
-          <div className="rounded-4xl bg-white p-8 shadow-lg">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <h2 className="text-2xl font-semibold">Your Requests</h2>
-                <p className="mt-2 text-sm text-slate-500">Track all room allotment requests submitted by you.</p>
+                <p className="text-sm mt-2">
+                  Available: {room.availableRooms}/{room.totalRooms}
+                </p>
+
+                <p className="text-xs text-gray-500 mt-2">
+                  {room.amenities.join(", ") || "Basic"}
+                </p>
+
+                {/* SELECT BUTTON */}
+                <button
+                  onClick={() => setSelectedRoom(room)}
+                  className={`mt-4 w-full py-2 rounded-xl ${
+                    selectedRoom?._id === room._id
+                      ? "bg-green-500 text-white"
+                      : "bg-purple-600 text-white"
+                  }`}
+                >
+                  {selectedRoom?._id === room._id
+                    ? "Selected"
+                    : "Select Room"}
+                </button>
               </div>
             </div>
+          ))}
+        </div>
 
-            <div className="mt-6 overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-200 text-sm">
-                <thead>
-                  <tr className="text-left text-slate-500">
-                    <th className="px-4 py-3">Applied</th>
-                    <th className="px-4 py-3">Room</th>
-                    <th className="px-4 py-3">Building</th>
-                    <th className="px-4 py-3">Status</th>
-                    <th className="px-4 py-3">Rent</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {requests.map((item) => (
-                    <tr key={item._id} className="hover:bg-slate-50">
-                      <td className="px-4 py-4 text-slate-600">{new Date(item.createdAt).toLocaleDateString()}</td>
-                      <td className="px-4 py-4 text-slate-600">{item.roomType}</td>
-                      <td className="px-4 py-4 text-slate-600">{item.building}</td>
-                      <td className="px-4 py-4">
-                        <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                          item.status === "Approved"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : item.status === "Rejected"
-                            ? "bg-rose-100 text-rose-700"
-                            : "bg-amber-100 text-amber-700"
-                        }`}>
-                          {item.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4 text-slate-600">${item.rent}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        {/* APPLY FORM */}
+        {selectedRoom && (
+          <div className="mt-10 max-w-xl mx-auto bg-white p-6 rounded-3xl shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">
+              Apply for {selectedRoom.name}
+            </h2>
+
+            <input
+              type="text"
+              placeholder="Preference (optional)"
+              value={preference}
+              onChange={(e) => setPreference(e.target.value)}
+              className="w-full border rounded-xl px-4 py-2 mb-4"
+            />
+
+            <textarea
+              placeholder="Reason"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="w-full border rounded-xl px-4 py-2 mb-4"
+            />
+
+            <Button title="Apply Now" onClick={handleApply} />
           </div>
-        </section>
+        )}
       </main>
+
       <Footer />
     </div>
   );

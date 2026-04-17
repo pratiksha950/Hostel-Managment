@@ -32,6 +32,13 @@ const roomSchema = new Schema({
     type: [String],
     default: [],
   },
+
+  // ✅ ADD THIS
+  image: {
+    type: String,
+    default: "",
+  }
+
 }, { timestamps: true });
 
 const Room = model("Room", roomSchema);
