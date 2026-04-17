@@ -4,15 +4,17 @@ import Input2 from "../components/Input2.jsx"
 import Button from "../components/Button.jsx"
 import axios from "axios"
 import toast, { Toaster } from "react-hot-toast"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Navbar from '../components/Navbar'
 import loginImg from "../assets/homeimg/login.png"
 import Footer from "../components/Footer.jsx"
 import Heading from "../components/Heading.jsx";
 
 function Login() {
+  const navigate = useNavigate();
+
   useEffect(() => {
-    setPageTitle("GiftForYou-Login");
+    setPageTitle("Hostel Management - Login");
   }, [])
 
   const [loginUser, setLoginUser] = useState({
@@ -37,8 +39,13 @@ function Login() {
         const { token, data } = response.data;
         localStorage.setItem("userData", JSON.stringify({ ...data, token }));
         localStorage.setItem("userJwtToken", token);
+
         setTimeout(() => {
-          window.location.href = "/";
+          if (data.role === "warden") {
+            navigate("/warden-dashboard");
+          } else {
+            navigate("/student-dashboard");
+          }
         }, 1500)
 
       } else {
@@ -67,7 +74,7 @@ function Login() {
             <Heading text="Welcome Back" />
 
             <p className="text-xs sm:text-sm text-center text-gray-500 mb-6">
-              Login to continue to GiftForYou
+              Login to continue to Hostel Management.
             </p>
 
             <form onSubmit={checkUserLogin} className="flex flex-col gap-3 sm:gap-4">
@@ -100,7 +107,7 @@ function Login() {
 
               <p className="text-center text-xs sm:text-sm">
                 Don't have an account?
-                <Link to="/signUp" className="text-purple-600 ml-1 font-semibold">
+                <Link to="/signup" className="text-purple-600 ml-1 font-semibold">
                   Sign Up
                 </Link>
               </p>

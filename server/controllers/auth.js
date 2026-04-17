@@ -8,7 +8,7 @@ dotenv.config();
 
 //signUp
 const postSignUp = async (req, res) => {
-  const { name, email, mobile, city, country, password} = req.body;
+  const { name, email, mobile, city, country, password } = req.body;
 
   if (!name) {
     return res.json({
@@ -33,6 +33,7 @@ const postSignUp = async (req, res) => {
       data: null,
     })
   }
+
   const existingUser = await User.findOne({ email: email });
 
   if (existingUser) {
@@ -51,7 +52,8 @@ const postSignUp = async (req, res) => {
     mobile,
     city,
     country,
-    password: encryptedPassword
+    password: encryptedPassword,
+    role: "student",
   })
   try {
     const savedUser = await newUser.save();
@@ -91,12 +93,41 @@ const postLogin = async (req, res) => {
 
   const existingUser = await User.findOne({ email });
 
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const adminName = process.env.ADMIN_NAME || "Warden";
+
   if (!existingUser) {
+    if (email === adminEmail && password === adminPassword) {
+      const jwttoken = jwt.sign(
+        {
+          id: "admin",
+          email,
+          role: "warden",
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1h",
+        }
+      );
+
+      return res.json({
+        success: true,
+        message: "login successfully",
+        token: jwttoken,
+        data: {
+          name: adminName,
+          email,
+          role: "warden",
+        },
+      });
+    }
+
     return res.json({
       success: false,
-      message: "user doesn`t exist with this email,please sign Up",
-      data: null
-    })
+      message: "user doesn`t exist with this email, please sign Up",
+      data: null,
+    });
   }
 
   const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
@@ -106,6 +137,7 @@ const postLogin = async (req, res) => {
       {
         id: existingUser._id,
         email: existingUser.email,
+        role: existingUser.role,
       },
       process.env.JWT_SECRET,
       {

@@ -7,6 +7,8 @@ import Login from "./views/Login";
 import Signup from "./views/Signup";
 import Profile from "./views/Profile";
 import About from "./views/About";
+import StudentDashboard from "./views/StudentDashboard";
+import WardenDashboard from "./views/WardenDashboard";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -16,7 +18,8 @@ createRoot(document.getElementById("root")).render(
       <Route path="/signup" element={<Signup />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/about" element={<About />} />
-      
+      <Route path="/student-dashboard" element={<StudentDashboard />} />
+      <Route path="/warden-dashboard" element={<WardenDashboard />} />
     </Routes>
   </BrowserRouter>
 );

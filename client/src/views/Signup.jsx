@@ -24,7 +24,7 @@ function SignUp() {
   });
 
   useEffect(() => {
-    setPageTitle("GiftForYou-SignUp");
+    setPageTitle("Hostel Management - Signup");
   }, []);
 
   const createUser = async (e) => {
@@ -32,7 +32,7 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/signUp`,
+        `${import.meta.env.VITE_API_BASE_URL}/signup`,
         newUser
       );
 
@@ -78,7 +78,7 @@ function SignUp() {
             <Heading text="Create Account" />
 
             <p className="text-xs sm:text-sm text-center text-gray-500 mb-6">
-              Join GiftForYou and start shopping
+              Create your student account for hostel room allotment and maintenance complaint tracking.
             </p>
 
             <form onSubmit={createUser} className="flex flex-col gap-3 sm:gap-4">

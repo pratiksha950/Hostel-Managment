@@ -97,7 +97,9 @@ function Navbar() {
                 ) : (
                   <Avatar name={userData.name} />
                 )}
-                <span className="text-sm font-medium text-gray-700">Hello, {userData.name}</span>
+                <span className="text-sm font-medium text-gray-700">
+                  Hello, {userData.name}{userData.role ? ` (${userData.role})` : ""}
+                </span>
               </Link>
               <Button
                 title="Logout"

@@ -31,7 +31,7 @@ app.get('/auth', function (req, res) {
   res.send({ token, expire, signature, publicKey: process.env.IMAGEKIT_PUBLIC_KEY });
 });
 
-app.post("/Signup", postSignUp)
+app.post("/signup", postSignUp)
 app.post("/login", postLogin)
 
 app.put("/profile", checkJWT, updateUser);
