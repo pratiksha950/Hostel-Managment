@@ -56,7 +56,7 @@ function WardenDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
+    <div className="min-h-screen bg-slate-800 text-slate-900">
       <Navbar />
 
       {/* PAGE ANIMATION */}
@@ -73,9 +73,7 @@ function WardenDashboard() {
           transition={{ duration: 0.7 }}
         >
           <Heading text="Warden Dashboard" />
-          <p className="max-w-3xl text-slate-600">
-            Review and manage student room requests and maintenance complaints.
-          </p>
+         
         </motion.div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
