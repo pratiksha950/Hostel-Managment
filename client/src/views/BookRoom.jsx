@@ -26,13 +26,15 @@ function BookRoom() {
       await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/room-requests`,
         {
+          studentName: form.studentName,
+          email: form.email,
           roomNumber: form.roomNumber,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       toast.success("✅ Application submitted (Pending)");
@@ -42,7 +44,6 @@ function BookRoom() {
         email: "",
         roomNumber: "",
       });
-
     } catch (err) {
       console.log(err.response?.data || err.message);
       toast.error("❌ Failed: " + (err.response?.data?.message || "Error"));
@@ -51,7 +52,6 @@ function BookRoom() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white">
-
       <Navbar />
 
       <div className="flex items-center justify-center px-4 py-20">
@@ -65,7 +65,6 @@ function BookRoom() {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-
             <input
               name="studentName"
               value={form.studentName}
@@ -100,7 +99,6 @@ function BookRoom() {
             >
               Apply for Room
             </motion.button>
-
           </form>
         </motion.div>
       </div>

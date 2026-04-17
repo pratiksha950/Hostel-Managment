@@ -60,9 +60,9 @@ function Navbar() {
             </Link>
           )}
           {isWarden && (
-            <Link to="/warden-dashboard" className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200">
+            <Link to="/manage-applications" className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200">
               Applications
-            </Link>
+            </Link> 
           )}
           <Link to="/about" className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200">
             About

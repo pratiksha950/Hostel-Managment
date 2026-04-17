@@ -100,6 +100,7 @@ function ManageApplications() {
                     <p className="text-gray-400 text-sm">
                       {app.email}
                     </p>
+                 
                   </div>
 
                   <span
