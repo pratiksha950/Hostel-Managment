@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Heading from "../components/Heading";
 import Footer from "../components/Footer";
@@ -26,6 +27,7 @@ function WardenDashboard() {
           headers: { Authorization: `Bearer ${getToken()}` },
         }),
       ]);
+
       setRoomRequests(requestsRes.data.data || []);
       setComplaints(complaintsRes.data.data || []);
     } catch (error) {
@@ -36,166 +38,186 @@ function WardenDashboard() {
   };
 
   const updateRoomRequestStatus = async (requestId, status) => {
-    try {
-      await axios.patch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/room-requests/${requestId}/status`,
-        { status },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
-      fetchDashboardData();
-    } catch (error) {
-      console.error(error);
-    }
+    await axios.patch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/room-requests/${requestId}/status`,
+      { status },
+      { headers: { Authorization: `Bearer ${getToken()}` } }
+    );
+    fetchDashboardData();
   };
 
   const updateComplaintStatus = async (complaintId, status) => {
-    try {
-      await axios.patch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/complaints/${complaintId}/status`,
-        { status },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      );
-      fetchDashboardData();
-    } catch (error) {
-      console.error(error);
-    }
+    await axios.patch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/complaints/${complaintId}/status`,
+      { status },
+      { headers: { Authorization: `Bearer ${getToken()}` } }
+    );
+    fetchDashboardData();
   };
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900">
       <Navbar />
-      <main className="max-w-7xl mx-auto px-4 py-10">
-        <Heading text="Warden Dashboard" />
-        <p className="max-w-3xl text-slate-600">
-          Review and manage student room requests and maintenance complaints. Approve, reject, or resolve requests directly from this panel.
-        </p>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-4xl bg-white p-8 shadow-lg">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <h2 className="text-2xl font-semibold">Room Allotment Requests</h2>
-                <p className="mt-2 text-sm text-slate-500">Approve or reject student room allotment applications.</p>
-              </div>
-              <span className="rounded-full bg-purple-100 px-4 py-2 text-sm font-semibold text-purple-700">{roomRequests.length} total</span>
+      {/* PAGE ANIMATION */}
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-7xl mx-auto px-4 py-10"
+      >
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          <Heading text="Warden Dashboard" />
+          <p className="max-w-3xl text-slate-600">
+            Review and manage student room requests and maintenance complaints.
+          </p>
+        </motion.div>
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          
+          {/* ROOM REQUESTS */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="rounded-3xl bg-white p-6 shadow-lg"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Room Requests</h2>
+              <span className="bg-purple-100 px-3 py-1 rounded-full text-purple-700 text-sm">
+                {roomRequests.length}
+              </span>
             </div>
 
             {loading ? (
-              <p className="mt-6 text-sm text-slate-500">Loading requests…</p>
+              <p className="text-gray-500">Loading...</p>
             ) : (
-              <div className="mt-6 overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 text-sm">
-                  <thead>
-                    <tr className="text-left text-slate-500">
-                      <th className="px-4 py-3">Student</th>
-                      <th className="px-4 py-3">Building</th>
-                      <th className="px-4 py-3">Room Type</th>
-                      <th className="px-4 py-3">Status</th>
-                      <th className="px-4 py-3">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    {roomRequests.map((request) => (
-                      <tr key={request._id} className="hover:bg-slate-50">
-                        <td className="px-4 py-4 text-slate-600">{request.student?.name || request.student?.email || "Student"}</td>
-                        <td className="px-4 py-4 text-slate-600">{request.building}</td>
-                        <td className="px-4 py-4 text-slate-600">{request.roomType}</td>
-                        <td className="px-4 py-4">
-                          <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                            request.status === "Approved"
-                              ? "bg-emerald-100 text-emerald-700"
-                              : request.status === "Rejected"
-                              ? "bg-rose-100 text-rose-700"
-                              : "bg-amber-100 text-amber-700"
-                          }`}>
-                            {request.status}
-                          </span>
-                        </td>
-                        <td className="px-4 py-4 space-x-2">
-                          <button
-                            onClick={() => updateRoomRequestStatus(request._id, "Approved")}
-                            className="rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white hover:bg-emerald-700"
-                          >
-                            Approve
-                          </button>
-                          <button
-                            onClick={() => updateRoomRequestStatus(request._id, "Rejected")}
-                            className="rounded-full bg-rose-600 px-3 py-1 text-xs font-semibold text-white hover:bg-rose-700"
-                          >
-                            Reject
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="space-y-3">
+                {roomRequests.map((req, i) => (
+                  <motion.div
+                    key={req._id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 hover:bg-slate-100 transition shadow-sm"
+                  >
+                    <div>
+                      <p className="font-semibold">
+                        {req.student?.name || "Student"}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {req.building} • {req.roomType}
+                      </p>
+                    </div>
+
+                    <span className="text-xs px-3 py-1 rounded-full bg-yellow-100 w-fit">
+                      {req.status}
+                    </span>
+
+                    <div className="flex gap-2">
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() =>
+                          updateRoomRequestStatus(req._id, "Approved")
+                        }
+                        className="bg-green-500 text-white px-3 py-1 rounded"
+                      >
+                        Approve
+                      </motion.button>
+
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() =>
+                          updateRoomRequestStatus(req._id, "Rejected")
+                        }
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                      >
+                        Reject
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             )}
-          </div>
+          </motion.div>
 
-          <div className="rounded-4xl bg-white p-8 shadow-lg">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <h2 className="text-2xl font-semibold">Maintenance Complaints</h2>
-                <p className="mt-2 text-sm text-slate-500">View student issues and update status to track progress.</p>
-              </div>
-              <span className="rounded-full bg-indigo-100 px-4 py-2 text-sm font-semibold text-indigo-700">{complaints.length} open</span>
+          {/* COMPLAINTS */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="rounded-3xl bg-white p-6 shadow-lg"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Complaints</h2>
+              <span className="bg-indigo-100 px-3 py-1 rounded-full text-indigo-700 text-sm">
+                {complaints.length}
+              </span>
             </div>
 
             {loading ? (
-              <p className="mt-6 text-sm text-slate-500">Loading complaints…</p>
+              <p className="text-gray-500">Loading...</p>
             ) : (
-              <div className="mt-6 overflow-x-auto">
-                <table className="min-w-full divide-y divide-slate-200 text-sm">
-                  <thead>
-                    <tr className="text-left text-slate-500">
-                      <th className="px-4 py-3">Student</th>
-                      <th className="px-4 py-3">Category</th>
-                      <th className="px-4 py-3">Urgency</th>
-                      <th className="px-4 py-3">Status</th>
-                      <th className="px-4 py-3">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    {complaints.map((complaint) => (
-                      <tr key={complaint._id} className="hover:bg-slate-50">
-                        <td className="px-4 py-4 text-slate-600">{complaint.student?.name || complaint.student?.email || "Student"}</td>
-                        <td className="px-4 py-4 text-slate-600">{complaint.category}</td>
-                        <td className="px-4 py-4 text-slate-600">{complaint.urgency}</td>
-                        <td className="px-4 py-4">
-                          <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                            complaint.status === "Resolved"
-                              ? "bg-emerald-100 text-emerald-700"
-                              : complaint.status === "In Progress"
-                              ? "bg-sky-100 text-sky-700"
-                              : "bg-amber-100 text-amber-700"
-                          }`}>
-                            {complaint.status}
-                          </span>
-                        </td>
-                        <td className="px-4 py-4 space-x-2">
-                          <button
-                            onClick={() => updateComplaintStatus(complaint._id, "In Progress")}
-                            className="rounded-full bg-sky-600 px-3 py-1 text-xs font-semibold text-white hover:bg-sky-700"
-                          >
-                            In Progress
-                          </button>
-                          <button
-                            onClick={() => updateComplaintStatus(complaint._id, "Resolved")}
-                            className="rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white hover:bg-emerald-700"
-                          >
-                            Resolve
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="space-y-3">
+                {complaints.map((comp, i) => (
+                  <motion.div
+                    key={comp._id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 hover:bg-slate-100 transition shadow-sm"
+                  >
+                    <div>
+                      <p className="font-semibold">
+                        {comp.student?.name || "Student"}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {comp.category} • {comp.urgency}
+                      </p>
+                    </div>
+
+                    <span className="text-xs px-3 py-1 rounded-full bg-blue-100 w-fit">
+                      {comp.status}
+                    </span>
+
+                    <div className="flex gap-2">
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() =>
+                          updateComplaintStatus(comp._id, "In Progress")
+                        }
+                        className="bg-blue-500 text-white px-3 py-1 rounded"
+                      >
+                        Progress
+                      </motion.button>
+
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() =>
+                          updateComplaintStatus(comp._id, "Resolved")
+                        }
+                        className="bg-green-500 text-white px-3 py-1 rounded"
+                      >
+                        Resolve
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             )}
-          </div>
+          </motion.div>
         </div>
-      </main>
+      </motion.main>
+
       <Footer />
     </div>
   );

@@ -1,80 +1,83 @@
-  import express from "express";
-  import dotenv from "dotenv"
-  import cors from "cors";
-  import connectDB from "./db.js";
-  import { checkJWT } from "./middleware/jwt.js";
-  import { postSignUp, postLogin, updateUser } from "./controllers/auth.js";
-  import { getHome, getHealth } from "./controllers/health.js";
-  import { getAbout } from "./controllers/about.js";
-  import { createRoomRequest, getRoomRequests, updateRoomRequestStatus, getRooms } from "./controllers/roomRequest.js";
-  import { createComplaint, getComplaints, updateComplaintStatus } from "./controllers/complaint.js";
-  import ImageKit from "@imagekit/nodejs";
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import connectDB from "./db.js";
+import { checkJWT } from "./middleware/jwt.js";
+import { postSignUp, postLogin, updateUser } from "./controllers/auth.js";
+import { getHome, getHealth } from "./controllers/health.js";
+import { getAbout } from "./controllers/about.js";
+import {
+  createRoomRequest,
+  getRoomRequests,
+  updateRoomRequestStatus,
+  getRooms,
+} from "./controllers/roomRequest.js";
+import {
+  createComplaint,
+  getComplaints,
+  updateComplaintStatus,
+} from "./controllers/complaint.js";
+import ImageKit from "@imagekit/nodejs";
+import {
+  addReview,
+  getReview,
+  updateReview,
+  deleteReview,
+} from "./controllers/review.js";
 
-  import { addReview, getReview, updateReview, deleteReview } from "./controllers/review.js";
-  dotenv.config();
+dotenv.config();
 
-  const app = express();
+const app = express();
+app.use(express.json());
+app.use(cors());
 
-  app.use(express.json());
+const client = new ImageKit({
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+});
 
-  app.use(cors());
+const PORT = process.env.PORT || 8080;
 
-  const client = new ImageKit({
-    privateKey: process.env.IMAGEKIT_PRIVATE_KEY
+/* ================== BASIC ================== */
+app.get("/health", getHealth);
+app.get("/", getHome);
+app.get("/api/about", getAbout);
+
+/* ================== IMAGEKIT ================== */
+app.get("/auth", (req, res) => {
+  const { token, expire, signature } =
+    client.helper.getAuthenticationParameters();
+  res.send({
+    token,
+    expire,
+    signature,
+    publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
   });
+});
 
-  const PORT = process.env.PORT || 8080;
+/* ================== AUTH ================== */
+app.post("/signup", postSignUp);
+app.post("/login", postLogin);
+app.put("/profile", checkJWT, updateUser);
 
-  app.get("/health", getHealth)
-  app.get("/", getHome)
-  app.get("/api/about", getAbout)
+/* ================== ROOM REQUEST ================== */
+app.post("/api/room-requests", checkJWT, createRoomRequest);
+app.get("/api/room-requests", checkJWT, getRoomRequests);
+app.patch("/api/room-requests/:id/status", checkJWT, updateRoomRequestStatus);
+app.get("/api/rooms", checkJWT, getRooms);
 
-  app.get('/auth', function (req, res) {
-    const { token, expire, signature } = client.helper.getAuthenticationParameters();
-    res.send({ token, expire, signature, publicKey: process.env.IMAGEKIT_PUBLIC_KEY });
-  });
+/* ================== COMPLAINT ================== */
+app.post("/api/complaints", checkJWT, createComplaint);
+app.get("/api/complaints", checkJWT, getComplaints);
+app.patch("/api/complaints/:id/status", checkJWT, updateComplaintStatus);
 
-  app.post("/signup", postSignUp)
-  app.post("/login", postLogin)
+/* ================== REVIEWS ================== */
+app.post("/api/reviews", addReview);
+app.get("/api/reviews", getReview);
+app.put("/api/reviews/:id", updateReview);
+app.delete("/api/reviews/:id", deleteReview);
 
-  app.post("/api/room-requests", checkJWT, createRoomRequest)
-  app.get("/api/room-requests", checkJWT, getRoomRequests)
-  app.patch("/api/room-requests/:id/status", checkJWT, updateRoomRequestStatus)
-  app.get("/api/rooms", checkJWT, getRooms)
-
-  app.post("/api/complaints", checkJWT, createComplaint)
-  app.get("/api/complaints", checkJWT, getComplaints)
-  app.patch("/api/complaints/:id/status", checkJWT, updateComplaintStatus)
-
-  app.put("/profile", checkJWT, updateUser);
-
-
-
-
-  app.post("/api/reviews", addReview);
-  app.get("/api/reviews", getReview);
-  app.put("/api/reviews/:id", updateReview);
-  app.delete("/api/reviews/:id", deleteReview);
-
-  /* ================== ROOM REQUEST ================== */
-  // Student → Apply (Pending)
-  app.post("/api/room-requests", checkJWT, createRoomRequest);
-
-  // Get requests (student = own, warden = all)
-  app.get("/api/room-requests", checkJWT, getRoomRequests);
-
-  // Admin → Accept / Reject
-  app.patch(
-    "/api/room-requests/:id/status",
-    checkJWT,
-    updateRoomRequestStatus
-  );
-
-  // Rooms list
-  app.get("/api/rooms", checkJWT, getRooms);
-
-
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    connectDB()
-  });
+/* ================== SERVER ================== */
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  connectDB();
+});

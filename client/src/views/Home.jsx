@@ -3,13 +3,16 @@ import { SplineScene } from "../components/ui/Spline";
 import { Spotlight } from "../components/ui/Spotlight";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
+import { MessageSquareWarning } from "lucide-react";
 
 import {
-  Stethoscope,
-  Bed,
-  UserCheck,
-  Activity
+  Users,
+
+  ClipboardList,
+  ShieldCheck
 } from "lucide-react";
+
+
 import Footer from "../components/Footer";
 
 
@@ -145,7 +148,7 @@ function Home() {
               text-transparent"
             >
 
-              Smart Hospital
+              Smart Hostel
               <br />
               Management System
 
@@ -168,36 +171,14 @@ function Home() {
               max-w-lg"
             >
 
-              Experience the future of healthcare
-              with AI-powered hospital management,
-              real-time bed tracking, and smart
-              appointment systems.
+              Manage hostel operations efficiently
+              with smart room allocation,
+              student management,
+              and real-time availability tracking.
 
             </motion.p>
 
-            {/* BUTTON */}
-
-            <motion.button
-              whileHover={{
-                scale: 1.05
-              }}
-              whileTap={{
-                scale: 0.95
-              }}
-              className="
-              mt-8
-              w-fit
-              px-6
-              py-3
-              rounded-xl
-              bg-purple-500
-              hover:bg-purple-600
-              font-semibold"
-            >
-
-              Get Started
-
-            </motion.button>
+            
 
           </div>
 
@@ -246,7 +227,7 @@ function Home() {
           mb-14"
         >
 
-          Smart Hospital Features
+          Smart Hostel Features
 
         </motion.h2>
 
@@ -258,28 +239,31 @@ function Home() {
         >
 
           <FeatureCard
-            icon={UserCheck}
-            title="Smart Appointments"
-            desc="Book doctor visits instantly with AI scheduling."
+            icon={ Users}
+            title="Student Management"
+            desc="Manage student records, profiles, and hostel entries efficiently."
+          />
+
+      
+
+          
+          <FeatureCard
+            icon={ClipboardList}
+            title="Attendance Tracking"
+            desc="Monitor student attendance and generate reports."
           />
 
           <FeatureCard
-            icon={Bed}
-            title="Live Bed Tracking"
-            desc="Monitor hospital beds availability in real-time."
+            icon={ShieldCheck}
+            title="Security & Safety"
+            desc="Maintain visitor logs and ensure hostel security."
           />
 
           <FeatureCard
-            icon={Stethoscope}
-            title="Doctor Dashboard"
-            desc="Manage patient records efficiently."
-          />
-
-          <FeatureCard
-            icon={Activity}
-            title="Health Monitoring"
-            desc="Track vital signs with smart sensors."
-          />
+  icon={MessageSquareWarning}
+  title="Complaint System"
+  desc="Students can submit complaints and track their resolution status easily."
+/>
 
         </div>
 
