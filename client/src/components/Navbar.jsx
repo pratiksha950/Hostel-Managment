@@ -50,7 +50,7 @@ function Navbar() {
             </Link>
           )}
           {isStudent && (
-            <Link to="/student/room-rent" className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200">
+            <Link to="/room-rent" className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200">
               Room Requests
             </Link>
           )}
