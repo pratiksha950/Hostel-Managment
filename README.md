@@ -1,7 +1,7 @@
 # 🏨 EasyStay – Hostel Management System  
 
 ## 👉 Live Website  
-🌐 [https://your-easystay-link.netlify.app/](https://your-easystay-link.netlify.app/)  
+🌐 [https://hostel-managment.onrender.com](https://hostel-managment-1.onrender.com)  
 
 ---
 
@@ -14,7 +14,7 @@ It allows students to **request rooms, track approvals, and raise maintenance co
 ---
 
 ## 🏠 Dashboard Preview  
-![EasyStay Dashboard](./assets/dashboard.png)
+![EasyStay Dashboard](./client/src/assets/dashboard.png)
 
 ---
 
@@ -62,3 +62,4 @@ It allows students to **request rooms, track approvals, and raise maintenance co
 ---
 
 ## 📂 Project Structure
+![EasyStay Dashboard](./client/src/assets/image.png)
