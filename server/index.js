@@ -9,6 +9,8 @@ import { getAbout } from "./controllers/about.js";
 import { createRoomRequest, getRoomRequests, updateRoomRequestStatus, getRooms } from "./controllers/roomRequest.js";
 import { createComplaint, getComplaints, updateComplaintStatus } from "./controllers/complaint.js";
 import ImageKit from "@imagekit/nodejs";
+
+import { addReview, getReview, updateReview, deleteReview } from "./controllers/review.js";
 dotenv.config();
 
 const app = express();
@@ -45,6 +47,14 @@ app.get("/api/complaints", checkJWT, getComplaints)
 app.patch("/api/complaints/:id/status", checkJWT, updateComplaintStatus)
 
 app.put("/profile", checkJWT, updateUser);
+
+
+
+
+app.post("/api/reviews", addReview);
+app.get("/api/reviews", getReview);
+app.put("/api/reviews/:id", updateReview);
+app.delete("/api/reviews/:id", deleteReview);
 
 
 app.listen(PORT, () => {
